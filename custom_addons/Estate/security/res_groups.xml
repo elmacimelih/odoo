@@ -1,0 +1,7 @@
+<!-- security/res_groups.xml -->
+<odoo>
+    <record id="estate_manager" model="res.groups">
+        <field name="name">Estate Manager</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+</odoo>

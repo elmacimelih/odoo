@@ -1,0 +1,20 @@
+{
+    'name': "College ERP",
+    'version': "18.0.1.1",
+    'license': "LGPL-3",
+    'summary': """An erp for college education""",
+    'description': """From students admistration to exam, this covers all aspects of college administration""",
+    'author': "Alfa Çözüm",
+    'category': "Education",
+    'website': "alfacozum.com",
+    'maintainer': "Alfa Çözüm <info@alfacozum.com>",
+    'sequence': 1,
+    'data': [
+        'security/res_groups.xml',
+        'security/ir.model.access.csv',
+        'views/college_erp_menus.xml',
+    ],
+    'application': True,
+    'auto_install': False,
+    'installable': True,
+}

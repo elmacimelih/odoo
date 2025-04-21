@@ -1,0 +1,6 @@
+<odoo>
+    <record id="group_college_admin" model="res.groups">
+        <field name="name">College Admin</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+</odoo>
