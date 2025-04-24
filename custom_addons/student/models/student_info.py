@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-
 from email.policy import default
+from re import search
+
 
 from odoo import api, models, fields
+from odoo.exceptions import UserError
 import time
 
 from odoo.fields import Datetime
+from odoo.tools import conditional
+
 
 class School(models.Model):
     _name="wb.school"
@@ -36,7 +41,7 @@ class School(models.Model):
 
     my_currency_id = fields.Many2one("res.currency", string="My Currency")
     #currency_id = fields.Many2one("res.currency")
-    amount = fields.Monetary("Amount", currency_field="my_currency_id")
+    amount = fields.Monetary("Amount", currency_field="my_currency_id", default=0)
 
 
     invoice_total_amount = fields.Monetary(related="invoice_id.amount_residual", currency_field="my_currency_id", store=True)
@@ -81,9 +86,18 @@ class School(models.Model):
     def custom_method(self):
         print("Custom Method Executed!")
 
-        print(self)
-        self.write({"name":"Write Update", "amount":40})
-        pass
+
+        # print(self.search([], order="name"))
+        # print(self.search([], order="id desc"))
+        #
+        # #limit kaç tane kayıt gönderilecek, offset kaçıncı kayıttan başlanacak,
+        # print(self.search([], limit=5, offset=0))
+        # print(self.env["wb.student"].search([("name", "ilike", "test"),("name", "ilike", "ODTÜ")]))
+        # print(self.search([("name", "ilike", "ODTÜ")]))
+
+        # print(self)
+        # self.write({"name":"Write Update", "amount":40})
+        # pass
         # print("Clicked!")
         # data = [
         #     {"name":"Melih Record 1"},
@@ -94,6 +108,38 @@ class School(models.Model):
         # ]
         # self.env["wb.school"].create(data)
 
+        # amount = 1000
+
+        # records = self.search([("amount",">",10)])
+        # records = self.search([("amount","=",0)])
+        # records = self.search([("amount","=?",None)])
+        # records = self.search([("amount","=", None)])
+
+        # records = self.search([("name","in", ("MIT", "Hello"))])
+        # records = self.search([("name","not in", ("MIT", "Hello"))])
+        # self.print_table(records)
+
+        records = self.env["stock.location"].search([("id", "child_of", "1")])
+        records = self.env["stock.location"].search([("id", "parent_of", "1")])
+
+        self.print_table(records)
+
+        return
+        records = self.search([("name","=","oDTÜ")])
+        self.print_table(records)
+
+        records = self.search([("name","=","ODTÜ")])
+        self.print_table(records)
+
+
+    def print_table(self, records):
+        print(f"Total Record Found :- {len(records)}")
+        print("ID                       Name                         Amount")
+        for rec in records:
+            # print(f"{rec.id}                   {rec.name}                        {rec.amount}")
+              print(f"{rec.id}             {rec.name}        {rec.parent_id.name} / {rec.parent_id.id}")
+        print("")
+        print("")
 
 
 class Student(models.Model):
@@ -191,6 +237,31 @@ class Student(models.Model):
         #     {"name": "Melih Record 5"},
         # ]
         # self.env["wb.school"].create(data)
+
+    def duplicate_records(self):
+        # print(self)
+        duplicate_record = self.copy({"joining_date":fields.Datetime.now()})
+        # print(duplicate_record)
+
+    @api.returns("self", lambda value: value.id)
+    def copy(self, default=None):
+        print(self)
+        print(default)
+        rtn = super(Student, self).copy(default=default)
+        print(rtn)
+        return rtn
+
+    def delete_records(self):
+        print(self)
+        school_id = self.env["wb.school"].browse(263)
+        for school in school_id:
+            if not school.exists():
+                raise UserError(f"Recordset is not available! {school}")
+                print("Instance or Recordset is not available", school)
+            else:
+                print("Instance or Recordset is available", school)
+        # print(school_id)
+        # print(school_id.unlink())
 
 
 

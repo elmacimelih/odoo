@@ -26,6 +26,10 @@
             <form>
                 <header>
                     <button name="custom_method" type="object" string="Custom Method"/>
+                    <button name="duplicate_records" type="object" string="Duplicate Records(Create)"/>
+                    <button name="delete_records" type="object" string="Delete Record" class="btn-danger"/>
+
+<!--                    <button name="delete_records" type="object" string="Delete Records(Unlink)"/>-->
                 </header>
                 <group>
                     <group>

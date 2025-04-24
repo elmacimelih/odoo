@@ -10,7 +10,7 @@
     'website': "alfacozum.com",
     'maintainer': "Alfa Çözüm <info@alfacozum.com>",
     'sequence': 1,
-    'depends': ['base', 'account'],
+    'depends': ['base', 'account', 'stock'],
     'data': [
     "views/student_view.xml",
     "views/school_view.xml",
