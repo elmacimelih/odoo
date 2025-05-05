@@ -154,7 +154,7 @@ class School(models.Model):
                 Command.delete(12)
             ]
         })
-
+    #test
 
         #write icin
         # sale = self.env['sale.order'].browse(8)
