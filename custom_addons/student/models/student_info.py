@@ -15,6 +15,18 @@ from odoo.tools import conditional
 
 _logger = logging.getLogger("Custom Logger")
 
+class partner(models.Model):
+    _inherit = "res.partner"
+
+    # @api.model_create_multi
+    # def create(self, vals):
+    #     print(self, vals)
+    #     return super(partner, self).create(vals)
+    #
+    # def write(self, vals):
+    #     print(self, vals)
+    #     return super(partner, self).write(vals)
+
 class sale(models.Model):
     _inherit = "sale.order"
 
@@ -146,15 +158,27 @@ class School(models.Model):
 
     def custom_method(self):
 
-        sale = self.env['sale.order'].browse(8)
-        # print(sale)
+        partner = self.env['res.partner'].browse(3)
+        print(partner, self)
 
-        sale.write({
-            "order_line":[
-                Command.delete(12)
+        partner.write({
+            "category_id":[
+                Command.unlink(1)
             ]
         })
-    #test
+
+        #{'category_id': [[4, 1], [4, 2]], 'parent_id': 8, 'company_id': False}
+
+        #
+        # sale = self.env['sale.order'].browse(8)
+        # # print(sale)
+        #
+        # sale.write({
+        #     "order_line":[
+        #         Command.delete(12)
+        #     ]
+        # })
+        #
 
         #write icin
         # sale = self.env['sale.order'].browse(8)
