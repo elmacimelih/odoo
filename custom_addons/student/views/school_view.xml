@@ -25,7 +25,16 @@
                 <group>
                     <group>
                         <field name="name"/>
-                        <field name="ref_field_id"/>
+<!--                        <field name="ref_field_id"/>-->
+<!--                        <field name="ref_field_id" readonly="amount == 1"/>-->
+<!--                        <field name="ref_field_id" readonly="1"/>-->
+<!--                        <field name="ref_field_id" readonly="amount == 1 or name == 'test1234'"/>-->
+<!--                        <field name="ref_field_id" readonly="amount == 1 and name == 'test1234'"/>-->
+
+<!--                        <field name="ref_field_id" invisible="amount == 1 and name == 'test1234'"/>-->
+                        <field name="ref_field_id" required="amount == 1"/>
+
+                        <field name = "active"/>
                         <field name="invoice_id"/>
                         <field name="invoice_incoterm_id"/>
                         <field name="invoice_date"/>
@@ -34,6 +43,7 @@
                         <field name="binary_fields" widget="many2many_binary"/>
                         <field name="my_currency_id"/>
                         <field name="amount"/>
+
 <!--                        <field name="binary_field_name"/>-->
 <!--                        <field name="invoice_user_id"/>-->
 <!--                        <field name="student_list"/>-->

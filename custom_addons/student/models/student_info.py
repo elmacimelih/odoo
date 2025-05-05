@@ -6,15 +6,66 @@ from re import search
 from odoo import api, models, fields
 from odoo.exceptions import UserError
 import time
+from lxml import etree
+import logging
+from odoo.fields import Command
 
 from odoo.fields import Datetime
 from odoo.tools import conditional
+
+_logger = logging.getLogger("Custom Logger")
+
+class sale(models.Model):
+    _inherit = "sale.order"
+
+    # @api.model_create_multi
+    # def create(self, vals):
+    #     print(self, vals)
+    #     return super(sale, self).create(vals)
+
+    # def write(self, vals):
+    #     print(self, vals)
+    #     return super(sale, self).write(vals)
+
+
+class saleline(models.Model):
+    _inherit = "sale.order.line"
+
+    # def unlink(self):
+    #     print(self)
+    #     return super(saleline, self).unlink()
+
+    # @api.model_create_multi
+    # def create(self, vals):
+    #     print(self, vals)
+    #     return super(saleline, self).create(vals)
+
+    # def write(self, vals):
+    #     print(self, vals)
+    #     return super(saleline, self).write(vals)
+
+class DummyStudentClass(models.Model):
+    _name = "dummy.student.model"
+    _table = "my_abc_student"
+    _description = "This is demo student model profile"
+
+class DummyStudent(models.Model):
+    _name = "dummy.student"
+    _table = "my_dummy_student"
+    _description = "This is demo student profile"
+
+class DemoSchool(models.Model):
+    _name = "demo.school"
+    _description = "This is demo profile"
+
+    name = fields.Char("test")
 
 
 class School(models.Model):
     _name="wb.school"
     _description = "This is school profile."
 
+    active = fields.Boolean("Archive / Soft Remove / Remove Filter", default = True) #soft delete anlamina gelir. Unarchive yapilinca dbdeki active alani true olarak degisir
 
 #Odoo'nun çekirdeğinde Many2one alanlar, bir kayıt gösterileceğinde name_get() fonksiyonunu otomatik olarak çağırır. Bu fonksiyonun varsayılan davranışı, ilgili modelde name alanı varsa onu göstermektir. Yani:
 #Eğer name dışındaki bir alanı göstermek istiyorsan ve ismini değiştirmek istemiyorsan, name_get() metodunu override ederek şu şekilde yapabilirsin:
@@ -81,12 +132,101 @@ class School(models.Model):
         print(rtn)
         return  rtn
 
+    #| Komut           | Açıklama                                            |
+    # | --------------- | --------------------------------------------------- |
+    # | `(0, 0, vals)`  | Yeni bir kayıt oluşturur                            |
+    # | `(1, id, vals)` | Mevcut bir kaydı günceller                          |
+    # | `(2, id, 0)`    | Mevcut bir kaydı siler                              |
+    # | `(3, id, 0)`    | Many2many ilişkisinden çıkarır (kaydı silmez)       |
+    # | `(4, id, 0)`    | Many2many ilişkisine **ekler** (varsa tekrar etmez) |
+    # | `(5, 0, 0)`     | Tüm ilişkileri sıfırlar (Many2many)                 |
+    # | `(6, 0, [ids])` | Many2many ilişkisini tamamen **yeniden tanımlar**   |
+
 
 
     def custom_method(self):
-        print("Custom Method Executed!")
+
+        sale = self.env['sale.order'].browse(8)
+        # print(sale)
+
+        sale.write({
+            "order_line":[
+                Command.delete(12)
+            ]
+        })
 
 
+        #write icin
+        # sale = self.env['sale.order'].browse(8)
+        # print(sale)
+        #
+        # sale.write({
+        #     "order_line": [
+        #         (1, 10, {"price_unit": 100}),
+        #         (1, 11, {"price_unit": 120}),
+        #         (1, 12, {"price_unit": 140})
+        #     ]
+        # })
+
+        #create icin
+        # sale_order_vals = {'locked': False, 'partner_id': 1, 'validity_date': '2025-06-04', 'date_order': '2025-05-05 11:09:25',
+        #   'show_update_pricelist': False, 'pricelist_id': 1, 'company_id': 1, 'payment_term_id': False, 'order_line': [
+        #         Command.create({'sequence': 10, 'display_type': False, 'is_downpayment': False, 'product_id': 1,
+        #                             'product_template_id': 1, 'product_custom_attribute_value_ids': [],
+        #                             'product_no_variant_attribute_value_ids': [], 'linked_line_id': False,
+        #                             'virtual_id': False, 'linked_virtual_id': False, 'selected_combo_items': False,
+        #                             'combo_item_id': False, 'name': 'Computer', 'product_uom_qty': 1, 'move_ids': [],
+        #                             'product_uom': 1, 'customer_lead': 0, 'price_unit': 1, 'technical_price_unit': 1,
+        #                             'tax_id': [[4, 31]], 'product_document_ids': [], 'invoice_lines': []}
+        #                         ),
+        #
+        #         Command.create({'sequence': 10, 'display_type': False, 'is_downpayment': False, 'product_id': 1,
+        #                         'product_template_id': 1, 'product_custom_attribute_value_ids': [],
+        #                         'product_no_variant_attribute_value_ids': [], 'linked_line_id': False,
+        #                         'virtual_id': False, 'linked_virtual_id': False, 'selected_combo_items': False,
+        #                         'combo_item_id': False, 'name': 'Computer', 'product_uom_qty': 1, 'move_ids': [],
+        #                         'product_uom': 1, 'customer_lead': 0, 'price_unit': 2, 'technical_price_unit': 1,
+        #                         'tax_id': [[4, 31]], 'product_document_ids': [], 'invoice_lines': []}
+        #                        ),
+        #
+        #         Command.create({'sequence': 10, 'display_type': False, 'is_downpayment': False, 'product_id': 1,
+        #                         'product_template_id': 1, 'product_custom_attribute_value_ids': [],
+        #                         'product_no_variant_attribute_value_ids': [], 'linked_line_id': False,
+        #                         'virtual_id': False, 'linked_virtual_id': False, 'selected_combo_items': False,
+        #                         'combo_item_id': False, 'name': 'Computer', 'product_uom_qty': 1, 'move_ids': [],
+        #                         'product_uom': 1, 'customer_lead': 0, 'price_unit': 3, 'technical_price_unit': 1,
+        #                         'tax_id': [[4, 31]], 'product_document_ids': [], 'invoice_lines': []}
+        #                        ),
+        #     ],
+        #   'note': False, 'sale_order_option_ids': [], 'quotation_document_ids': [],
+        #   'customizable_pdf_form_fields': False, 'user_id': 2, 'team_id': 1, 'require_signature': True,
+        #   'require_payment': False, 'prepayment_percent': 1, 'client_order_ref': False, 'tag_ids': [],
+        #   'show_update_fpos': False, 'fiscal_position_id': False, 'partner_invoice_id': 1, 'journal_id': False,
+        #   'warehouse_id': 1, 'incoterm': False, 'incoterm_location': False, 'picking_policy': 'direct',
+        #   'commitment_date': False, 'origin': False, 'opportunity_id': False, 'campaign_id': False, 'medium_id': False,
+        #   'source_id': False, 'signed_by': False, 'signed_on': False, 'signature': False}
+        #
+        # so = self.env["sale.order"].create(sale_order_vals)
+        # print(so, so.name)
+
+        # schools = self.search([('active', '=', False)])
+        # print(schools, len(schools))
+
+        # _logger.info("This is the Info Log")
+        # _logger.debug("This is the debug Log")
+        # _logger.error("This is the error Log")
+        # _logger.critical("This is the critical Log")
+        # _logger.warning("This is the warning Log")
+
+        # print("Custom Method Executed!")
+        # print(self)
+        #
+        # abc = self.env["wb.student"].search([])
+        # print(abc.read(fields=["name", "school_id"]))
+        # print(abc)
+        # print(self.read())
+
+        return
         # print(self.search([], order="name"))
         # print(self.search([], order="id desc"))
         #
@@ -140,6 +280,22 @@ class School(models.Model):
               print(f"{rec.id}             {rec.name}        {rec.parent_id.name} / {rec.parent_id.id}")
         print("")
         print("")
+
+    # @api.model
+    # def get_view(self, view_id=None, view_type="form", **options):
+    #     # print("Test1")
+    #     rtn = super(School, self).get_view(view_id=view_id, view_type=view_type, **options)
+    #     # print(rtn,"test2")
+    #     if view_type == "form" and "arch" in rtn:
+    #         print(self, view_id, view_type, options)
+    #         doc =etree.fromstring(rtn["arch"])
+    #         school_field = etree.Element("field", {"name":"student_id"})
+    #         targeted_field =doc.xpath("//field[@name='name']")
+    #         if targeted_field:
+    #             targeted_field[0].addnext(school_field)
+    #         rtn['arch'] = etree.tostring(doc, encoding="inicode")
+    #         print(rtn)
+    #     return rtn
 
 
 class Student(models.Model):
@@ -223,7 +379,9 @@ class Student(models.Model):
         self.school_data = {"name":self.name, "id":self.id, "fees":self.student_fees, "g":self.vip_gender}
 
     def custom_method(self):
-        print("test Method Executed!")
+        print("Custom Method Executed!")
+
+
         #
         # print(self)
         # self.write({"name":"Write Update", "amount":40})
