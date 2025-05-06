@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <record id="student_man_partner" model="res.partner">
+        <field name="name">Student1</field>
+        <field name="image_1920" file="student/static/description/picture1.jpg" type="base64" />
+    </record>
+
+    <record id="student_man_partner2" model="res.partner">
+        <field name="name">Student2</field>
+        <field name="image_1920" file="student/static/description/picture2.jpg" type="base64" />
+    </record>
+
+</odoo>

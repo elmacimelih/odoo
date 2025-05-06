@@ -161,11 +161,26 @@ class School(models.Model):
         partner = self.env['res.partner'].browse(3)
         print(partner, self)
 
-        partner.write({
-            "category_id":[
-                Command.unlink(1)
-            ]
-        })
+        partner.write({'category_id':[Command.clear()]})
+
+
+        # partner = self.env['res.partner'].browse(3)
+        # print(partner, self)
+        #
+        # partner.write({
+        #     "category_id":[
+        #         Command.link(1)
+        #     ]
+        # })
+
+        # partner = self.env['res.partner'].browse(3)
+        # print(partner, self)
+        #
+        # partner.write({
+        #     "category_id":[
+        #         Command.unlink(1)
+        #     ]
+        # })
 
         #{'category_id': [[4, 1], [4, 2]], 'parent_id': 8, 'company_id': False}
 

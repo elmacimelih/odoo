@@ -12,10 +12,12 @@
     'sequence': 1,
     'depends': ['base', 'account', 'stock', 'sale'],
     'data': [
+    "data/partner_data.xml",
+    "data/res_partner_data.xml",
     "views/student_view.xml",
     "views/school_view.xml",
     "views/hobby_view.xml",
-    "security/ir.model.access.csv",
+    "security/ir.model.access.csv"
     ],
     'application': True,
     'auto_install': False,
