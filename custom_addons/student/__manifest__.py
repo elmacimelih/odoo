@@ -12,6 +12,9 @@
     'sequence': 1,
     'depends': ['base', 'account', 'stock', 'sale'],
     'data': [
+    "data/res.partner.csv",
+    "data/res.partner.category.csv",
+    "data/student_school_record.xml",
     "data/partner_data.xml",
     "data/res_partner_data.xml",
     "views/student_view.xml",

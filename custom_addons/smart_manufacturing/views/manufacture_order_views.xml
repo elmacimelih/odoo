@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <record model="ir.ui.view" id="view_smart_manufacture_order_list">
+        <field name="model">smart.manufacture.order</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="quantity"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_smart_manufacture_order_form">
+        <field name="model">smart.manufacture.order</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_start" type="object" string="Start"/>
+                    <button name="action_done" type="object" string="Done"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name" readonly="1"/>
+                        <field name="product_id"/>
+                        <field name="quantity"/>
+                        <field name="date_planned"/>
+                        <field name="state"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

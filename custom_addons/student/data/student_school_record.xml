@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+    <record id="wb_school_sunny" model="wb.school">
+        <field name="name">Original Sunny Leone School</field>
+<!--        <field name="binary_field" file="student/static/description/picture1.jpg" type="base64"/>-->
+<!--        <field name="binary_field_name">picture1.jpg</field>-->
+    </record>
+
+    <record id="wb_school_sunny2" model="wb.school">
+        <field name="name">Original Sunny Leone School2</field>
+<!--        <field name="binary_field" file="student/static/description/picture1.jpg" type="base64"/>-->
+<!--        <field name="binary_field_name">picture1.jpg</field>-->
+    </record>
+
+</odoo>

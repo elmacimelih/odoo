@@ -136,13 +136,13 @@ class School(models.Model):
         print(rtn)
         return rtn
 
-    def write(self, vals):
-        print("Write Method Called!")
-        print(self)
-        print(vals)
-        rtn = super(School, self).write(vals)
-        print(rtn)
-        return  rtn
+    # def write(self, vals):
+    #     print("Write Method Called!")
+    #     print(self)
+    #     print(vals)
+    #     rtn = super(School, self).write(vals)
+    #     print(rtn)
+    #     return  rtn
 
     #| Komut           | Açıklama                                            |
     # | --------------- | --------------------------------------------------- |
@@ -158,10 +158,10 @@ class School(models.Model):
 
     def custom_method(self):
 
-        partner = self.env['res.partner'].browse(3)
-        print(partner, self)
-
-        partner.write({'category_id':[Command.clear()]})
+        # partner = self.env['res.partner'].browse(3)
+        # print(partner, self)
+        #
+        # partner.write({'category_id':[Command.clear()]})
 
 
         # partner = self.env['res.partner'].browse(3)

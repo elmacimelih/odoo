@@ -7,4 +7,10 @@ access_wb_hobby,wb.hobby,model_wb_hobby,base.group_user,1,1,1,1
 
 access_dummy_student,dummy.student,model_dummy_student,base.group_user,1,1,1,1
 
+access_dummy_student_model,dummy.student.model,model_dummy_student_model,base.group_user,1,1,1,1
+
+access_demo_school,demo.school,model_demo_school,base.group_user,1,1,1,1
+
+
+
 

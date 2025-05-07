@@ -3,12 +3,15 @@
 <odoo>
     <record id="student_man_partner" model="res.partner">
         <field name="name">Student1</field>
-        <field name="image_1920" file="student/static/description/picture1.jpg" type="base64" />
+        <field name="image_1920" file="student/static/description/picture1.jpg" type="base64"/>
+        <field name="country_id" ref="base.ae"/>
+        <field name="title" eval="6"/>
+        <field name="category_id" eval="[(6, 0, [ref('base.res_partner_category_0'), ref('base.res_partner_category_2')])]"/>
     </record>
 
     <record id="student_man_partner2" model="res.partner">
         <field name="name">Student2</field>
-        <field name="image_1920" file="student/static/description/picture2.jpg" type="base64" />
+        <field name="image_1920" file="student/static/description/picture2.jpg" type="base64"/>
     </record>
 
 </odoo>

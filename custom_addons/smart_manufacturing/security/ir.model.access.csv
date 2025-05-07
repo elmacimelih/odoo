@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_product,Access Product,model_product_product,base.group_user,1,0,0,0
+access_stock_quant,Access Stock Quant,model_stock_quant,base.group_user,1,0,0,0
+access_api_key,Access API Key,model_smart_api_key,base.group_user,1,0,0,0
+access_manufacture_order,Access Manufacture Order,model_smart_manufacture_order,base.group_user,1,1,1,1
