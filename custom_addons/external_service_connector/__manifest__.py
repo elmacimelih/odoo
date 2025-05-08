@@ -7,7 +7,7 @@
     'category': "Tools",
     'author': "Alfa Çözüm",
     'website': "alfacozum.com",
-    'depends': ['base'],
+    'depends': ['base', 'product', 'stock', 'sale'],
     'external_dependencies': {
         'python': [
             'requests',

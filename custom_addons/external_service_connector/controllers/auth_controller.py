@@ -3,7 +3,7 @@ import json, datetime, jwt, logging, hashlib, os
 from odoo import http, _
 from odoo.http import request, Response
 from werkzeug.exceptions import Unauthorized
-from ..dtos.api_result import ApiResult
+from ..dtos.api_result_dto import ApiResult
 
 _logger = logging.getLogger(__name__)
 
