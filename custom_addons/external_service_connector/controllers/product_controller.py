@@ -36,39 +36,43 @@ class ProductController(http.Controller):
         res = ApiResult(200, payload=product_list)
         return Response(json.dumps(res.to_dict()), status=200, content_type='application/json')
 
-    @http.route('/api/createProduct', type='json', auth='none', methods=['POST'], csrf=False)
-    @jwt_required
-    def create_product(self, **kwargs):
-        try:
-            body = request.jsonrequest
+    class ProductController(http.Controller):
 
-            name = body.get('name')
-            default_code = body.get('default_code')
-            list_price = body.get('list_price', 0.0)
-            type_ = body.get('type', 'product')
+        @http.route('/api/createProduct', type='json', auth='none', methods=['POST'], csrf=False)
+        def create_product(self, **kwargs):
+            # Hem doğrudan gelen hem de params içindeki JSON'u destekle
+            params = kwargs.get('params') or kwargs
 
-            if not name:
-                raise BadRequest("Product 'name' is required")
+            name = params.get('name')
+            default_code = params.get('default_code', '')
+            list_price = params.get('list_price', 0.0)
+            type_ = str(params.get('type', 'product'))  # string'e zorla
 
-            product_template = request.env['product.template'].sudo().create({
-                'name': name,
-                'default_code': default_code,
-                'list_price': list_price,
-                'type': type_,
-            })
+            print(name, default_code, list_price)
 
-            product = product_template.product_variant_id
+            # if not name:
+            #     return {'error': "Ürün adı (name) zorunludur."}
 
-            payload = [{
-                'id': product.id,
-                'name': product.name,
-                'default_code': product.default_code,
-                'list_price': product.list_price,
-                'type': product.type,
-            }]
-            res = ApiResult(200, payload=payload)
-            return res.to_dict()
+            if type_ not in ['product', 'service', 'consu']:
+                return {'error': f"Geçersiz type: '{type_}'. Sadece: 'product', 'service', 'consu' olabilir."}
 
-        except Exception as e:
-            res = ApiResult(400, error=str(e))
-            return res.to_dict()
+            try:
+                product_template = request.env['product.template'].sudo().create({
+                    'name': name,
+                    'default_code': default_code,
+                    'list_price': list_price
+                })
+
+                product = product_template.product_variant_id
+
+                return {
+                    'success': True,
+                    'product_id': product.id,
+                    'name': product.name,
+                    'default_code': product.default_code,
+                    'list_price': product.list_price,
+                    'type': product.type,
+                }
+
+            except Exception as e:
+                return {'error': str(e)}
