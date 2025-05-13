@@ -4,4 +4,5 @@ MODEL_MAP = {
     'user': 'res.users',
     'product': 'product.product',
     'contact': 'res.partner',
+    'manufacturingorder': 'mrp.production',
 }
