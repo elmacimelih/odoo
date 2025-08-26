@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 MODEL_MAP = {
-    'user': 'res.users',
-    'product': 'product.product',
-    'contact': 'res.partner',
-    'manufacturingorder': 'mrp.production',
+    'users': 'res.users',
+    'products': 'product.product',
+    'contacts': 'res.partner',
+    'manufacturingorders': 'mrp.production',
 }

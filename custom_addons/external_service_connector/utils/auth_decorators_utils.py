@@ -17,13 +17,33 @@ def jwt_required(func):
 
         token = auth_header.split(' ')[1]
         try:
-            jwt.decode(token, get_jwt_secret(), algorithms=['HS256'])
+            payload = jwt.decode(token, get_jwt_secret(), algorithms=['HS256'])
+            username = payload.get('username')
         except jwt.ExpiredSignatureError:
             res = ApiResult(401, error='Access token expired')
             return Response(json.dumps(res.to_dict()), status=401, content_type='application/json')
         except jwt.InvalidTokenError:
             res = ApiResult(401, error='Invalid access token')
             return Response(json.dumps(res.to_dict()), status=401, content_type='application/json')
+
+        # CRITICAL: Set user context to avoid singleton errors
+        try:
+            if username:
+                # Try to find the user by login
+                user = request.env['res.users'].sudo().search([('login', '=', username)], limit=1)
+                if user:
+                    user_id = user.id
+                else:
+                    user_id = 1  # Fallback to superuser
+            else:
+                user_id = 1  # Default to superuser
+
+            # Update request environment with proper user context
+            request.env = request.env(user=user_id)
+
+        except Exception as e:
+            # If anything fails, fallback to superuser to avoid singleton errors
+            request.env = request.env(user=1)
 
         return func(*args, **kwargs)
 

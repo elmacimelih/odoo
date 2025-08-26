@@ -36,43 +36,43 @@ class ProductController(http.Controller):
         res = ApiResult(200, payload=product_list)
         return Response(json.dumps(res.to_dict()), status=200, content_type='application/json')
 
-    class ProductController(http.Controller):
 
-        @http.route('/api/createProduct', type='json', auth='none', methods=['POST'], csrf=False)
-        def create_product(self, **kwargs):
-            # Hem doğrudan gelen hem de params içindeki JSON'u destekle
-            params = kwargs.get('params') or kwargs
+    @http.route('/api/createProduct', type='json', auth='none', methods=['POST'], csrf=False)
+    def create_product(self, **kwargs):
 
-            name = params.get('name')
-            default_code = params.get('default_code', '')
-            list_price = params.get('list_price', 0.0)
-            type_ = str(params.get('type', 'product'))  # string'e zorla
+        # Hem doğrudan gelen hem de params içindeki JSON'u destekle
+        params = kwargs.get('params') or kwargs
 
-            print(name, default_code, list_price)
+        name = params.get('name')
+        default_code = params.get('default_code', '')
+        list_price = params.get('list_price', 0.0)
+        type_ = str(params.get('type', 'product'))  # string'e zorla
 
-            # if not name:
-            #     return {'error': "Ürün adı (name) zorunludur."}
+        print(name, default_code, list_price)
 
-            if type_ not in ['product', 'service', 'consu']:
-                return {'error': f"Geçersiz type: '{type_}'. Sadece: 'product', 'service', 'consu' olabilir."}
+        # if not name:
+        #     return {'error': "Ürün adı (name) zorunludur."}
 
-            try:
-                product_template = request.env['product.template'].sudo().create({
-                    'name': name,
-                    'default_code': default_code,
-                    'list_price': list_price
-                })
+        if type_ not in ['product', 'service', 'consu']:
+            return {'error': f"Geçersiz type: '{type_}'. Sadece: 'product', 'service', 'consu' olabilir."}
 
-                product = product_template.product_variant_id
+        try:
+            product_template = request.env['product.template'].sudo().create({
+                'name': name,
+                'default_code': default_code,
+                'list_price': list_price
+            })
 
-                return {
-                    'success': True,
-                    'product_id': product.id,
-                    'name': product.name,
-                    'default_code': product.default_code,
-                    'list_price': product.list_price,
-                    'type': product.type,
-                }
+            product = product_template.product_variant_id
 
-            except Exception as e:
-                return {'error': str(e)}
+            return {
+                'success': True,
+                'product_id': product.id,
+                'name': product.name,
+                'default_code': product.default_code,
+                'list_price': product.list_price,
+                'type': product.type,
+            }
+
+        except Exception as e:
+            return {'error': str(e)}

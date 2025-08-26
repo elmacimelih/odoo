@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -- coding: utf-8 --
 import json, datetime, jwt, logging, hashlib, os
 from odoo import http, _
 from odoo.http import request, Response
@@ -60,12 +60,12 @@ class AuthController(http.Controller):
             'expiry_date': refresh_exp
         })
 
-        payload = [{
+        payload = {
             'access_token': access_token,
             'access_token_expiry': access_exp.strftime('%Y-%m-%dT%H:%M:%SZ'),
             'refresh_token': refresh_token,
             'refresh_token_expiry': refresh_exp.strftime('%Y-%m-%dT%H:%M:%SZ'),
-        }]
+        }
         res = ApiResult(200, payload=payload)
         return Response(json.dumps(res.to_dict()), status=200, content_type='application/json')
 
@@ -94,9 +94,9 @@ class AuthController(http.Controller):
             algorithm='HS256'
         )
 
-        payload = [{
+        payload = {
             'access_token': new_access_token,
             'access_token_expiry': access_exp.strftime('%Y-%m-%dT%H:%M:%SZ'),
-        }]
+        }
         res = ApiResult(200, payload=payload)
         return Response(json.dumps(res.to_dict()), status=200, content_type='application/json')
