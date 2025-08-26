@@ -17,6 +17,7 @@ class ManufacturingController(http.Controller):
             # limit & offset parametrelerini al
             limit_param = request.params.get('limit')
             offset_param = request.params.get('offset', 0)
+            
             try:
                 limit = int(limit_param) if limit_param is not None else None
                 offset = int(offset_param)
